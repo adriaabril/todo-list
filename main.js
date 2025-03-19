@@ -5,20 +5,15 @@
     let addButton;
 
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM Content Loaded");
         input = document.getElementById("task-input");
         container = document.getElementById("task-list");
         addButton = document.getElementById("add-button");
-        
-        console.log("Add button found:", addButton); // Check if button was found
         addButton.addEventListener('click', addTask);
-        console.log("Click listener added");
     });
 
     function addTask(){
-        console.log("addTask function called"); // Check if function is called
+
         const task = input.value.trim();
-        console.log(task);
         if(!task){
             alert("Please write a task");
             return;
@@ -34,4 +29,26 @@
                     `;
         container.appendChild(li);
         input.value="";
+
+        // Event listeners for new task
+        const checkbox = li.querySelector("input");
+        const editBtn = li.querySelector(".edit-btn");
+        const taskSpan = li.querySelector("span");
+        const deleteBtn = li.querySelector(".delete-btn");
+
+        checkbox.addEventListener("click", function(){
+            li.classList.toggle("completed", checkbox.checked);
+        });
+
+        editBtn.addEventListener("click", function(){
+            const edit = prompt("Edit task", taskSpan.textContent);
+            
+            if (edit !== null) {
+                taskSpan.textContent = edit;
+                li.classList.remove("completed");
+                if(checkbox.checked){
+                    checkbox.checked = false;
+                }
+            }
+        });
     }
